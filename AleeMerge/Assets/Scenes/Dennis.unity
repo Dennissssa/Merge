@@ -173,7 +173,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 1701998469}
   playerHealth: {fileID: 1701998467}
-  moveSpeed: 3.5
+  speedX: 3
+  speedZ: 3
   stopDistance: 1
   attackRange: 2
   attackFrequency: 1
@@ -434,7 +435,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 1701998469}
   playerHealth: {fileID: 1701998467}
-  moveSpeed: 3.5
+  speedX: 1
+  speedZ: 3
   stopDistance: 1
   attackRange: 2
   attackFrequency: 1
@@ -966,7 +968,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 1701998469}
   playerHealth: {fileID: 1701998467}
-  moveSpeed: 3.5
+  speedX: 3
+  speedZ: 1
   stopDistance: 1
   attackRange: 2
   attackFrequency: 1
