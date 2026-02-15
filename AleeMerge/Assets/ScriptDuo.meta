@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:AleeMerge/Assets/ScriptDuo.meta
 guid: 74bc5a04e46cb7146bd41ddcbdd5508e
+========
+guid: e26f8f171b46e44c0b771c6fdce9314e
+>>>>>>>> Jayson:AleeMerge/Assets/Prefab.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
