@@ -1,0 +1,124 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3520742457628058742
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2743757537382728880}
+  - component: {fileID: 2663318786679271279}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2743757537382728880
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3520742457628058742}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.2838817, y: -2.9, z: 4.980576}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 9145475956722144840}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2663318786679271279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3520742457628058742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 700dada2e39c26c428b4ba50324e3bce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aimBase: {fileID: 0}
+  throwOrigin: {fileID: 0}
+  shootOrigin: {fileID: 0}
+  groundCrosshair: {fileID: 0}
+  cam: {fileID: 0}
+  crosshairMoveSpeed: 6
+  maxDistanceFromPlayer: 18
+  clampToRadius: 1
+  groundLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  groundRaycastHeight: 50
+  groundStickOffset: 0.02
+  rockPrefab: {fileID: 7035677408349533784, guid: 6d3cc02ce20460c4b8152d9532e83dd6, type: 3}
+  rockExtraHeight: 4
+  rockSpin: 10
+  aimYawSpeed: 90
+  bulletPrefab: {fileID: 7035677408349533784, guid: 605d36e0bbd24734bae97b1db9f4408a, type: 3}
+  bulletSpeed: 60
+  bulletLifeTime: 3
+  baseInterval: 1
+  bulletPhaseOffset: 0.5
+  startAlignedImmediately: 1
+  doHitscanRaycast: 1
+  hitscanRange: 120
+  hitLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  ignoreTriggers: 1
+  debugDraw: 1
+  debugRayLength: 10
+--- !u!1 &7190120684471394919
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9145475956722144840}
+  - component: {fileID: 2747735682651450802}
+  m_Layer: 0
+  m_Name: Meter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9145475956722144840
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7190120684471394919}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -3.0279865, y: 7.5771375, z: -7.6026106}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2743757537382728880}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2747735682651450802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7190120684471394919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dfd93a89a62a8b468ec8b5748ceda6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timerText: {fileID: 0}
+  startNumber: 1

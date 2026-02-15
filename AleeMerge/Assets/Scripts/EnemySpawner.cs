@@ -5,6 +5,12 @@ public class EnemySpawner : MonoBehaviour
     [Header("Refs")]
     public DistanceTracker tracker;
     public DifficultyProfile profile;
+
+    [Header("Player Target (assign in Inspector)")]
+    public Transform playerTarget;   // 拖你的玩家Prefab实例(场景里的Player)进来
+    public PlayerHealth playerHealth; // 可选：也拖进来（更快）
+
+    [Header("Enemy Prefabs")]
     public GameObject enemy1;
     public GameObject enemy2;
     public GameObject enemy3;
@@ -24,10 +30,19 @@ public class EnemySpawner : MonoBehaviour
     [Header("Fix axis")]
     public float fixedY = 0f;
 
+    void Awake()
+    {
+        // 如果你没手动拖 PlayerHealth，但拖了 playerTarget，这里自动找一次
+        if (playerTarget != null && playerHealth == null)
+            playerHealth = playerTarget.GetComponent<PlayerHealth>();
+    }
 
     void Update()
     {
         if (!tracker || !profile) return;
+
+        // 没目标就不刷（避免刷出来全是呆子）
+        if (playerTarget == null) return;
 
         timer -= Time.deltaTime;
         if (timer > 0f) return;
@@ -46,12 +61,21 @@ public class EnemySpawner : MonoBehaviour
         // 区域随机生成
         var zone = PickZone(leftZone, topZone, bottomZone, wLeft, wTop, wBottom);
         Vector3 pos = RandomPointInBox(zone);
-
-        // 固定y坐标
         pos.y = fixedY;
 
-        Instantiate(prefab, pos, Quaternion.identity);
+        // 生成
+        GameObject enemyGO = Instantiate(prefab, pos, Quaternion.identity);
 
+        // ✅ 关键：把目标塞给敌人脚本
+        var chase = enemyGO.GetComponent<EnemyChaseAndAttack>();
+        if (chase != null)
+        {
+            chase.target = playerTarget;
+
+            // 可选：顺便把 PlayerHealth 塞进去，避免每次 GetComponent
+            if (playerHealth != null)
+                chase.playerHealth = playerHealth;
+        }
     }
 
     static Vector3 RandomPointInBox(BoxCollider box)
