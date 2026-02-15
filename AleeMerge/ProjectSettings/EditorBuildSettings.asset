@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/soren.unity
+    guid: 945ae4d47eddf06499232a5b43335d65
+  - enabled: 1
     path: Assets/Scenes/duo.unity
     guid: 252c2a13ab5153447906296a27eb95ff
   - enabled: 1
