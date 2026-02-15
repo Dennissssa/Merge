@@ -3,21 +3,21 @@ using UnityEngine;
 public class EnemyChaseAndAttack : MonoBehaviour
 {
     [Header("Target")]
-    public Transform target;          // Íæ¼Ò Transform
-    public PlayerHealth playerHealth; // Íæ¼ÒÑªÁ¿½Å±¾£¨½¨ÒéÍÏ£©
+    public Transform target;          // ï¿½ï¿½ï¿½ Transform
+    public PlayerHealth playerHealth; // ï¿½ï¿½ï¿½Ñªï¿½ï¿½ï¿½Å±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï£ï¿½
 
     [Header("Move (separate axes)")]
-    public float speedX = 3f;         // ÊÀ½çX·½ÏòËÙ¶È
-    public float speedZ = 3f;         // ÊÀ½çZ·½ÏòËÙ¶È
-    public float stopDistance = 1.0f; // ÌùÁ³Í£Ö¹¾àÀë£¬±ÜÃâ¶¶¶¯
+    public float speedX = 3f;         // ï¿½ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½Ù¶ï¿½
+    public float speedZ = 3f;         // ï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½Ù¶ï¿½
+    public float stopDistance = 1.0f; // ï¿½ï¿½ï¿½ï¿½Í£Ö¹ï¿½ï¿½ï¿½ë£¬ï¿½ï¿½ï¿½â¶¶ï¿½ï¿½
 
     [Header("Attack")]
     public float attackRange = 2.0f;
-    public float attackFrequency = 1.0f; // Ã¿Ãë¹¥»÷´ÎÊý£¨1=1ÃëÒ»´Î£©
-    public int damage = 10;
+    public float attackFrequency = 1.0f; // Ã¿ï¿½ë¹¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½1=1ï¿½ï¿½Ò»ï¿½Î£ï¿½
+    public int damage = 1;
 
     [Header("Flash")]
-    public FlashWhite selfFlash;      // µÐÈË×Ô¼ºÉÁ°×£¨¿É²»Ìî£¬»á×Ô¶¯ÕÒ£©
+    public FlashWhite selfFlash;      // ï¿½ï¿½ï¿½ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½×£ï¿½ï¿½É²ï¿½ï¿½î£¬ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½Ò£ï¿½
 
     float nextAttackTime;
 
@@ -25,7 +25,7 @@ public class EnemyChaseAndAttack : MonoBehaviour
     {
         if (selfFlash == null) selfFlash = GetComponentInChildren<FlashWhite>();
 
-        // Èç¹ûÃ»ÍÏ playerHealth£¬³¢ÊÔ´Ó target ÕÒ
+        // ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ playerHealthï¿½ï¿½ï¿½ï¿½ï¿½Ô´ï¿½ target ï¿½ï¿½
         if (playerHealth == null && target != null)
             playerHealth = target.GetComponent<PlayerHealth>();
     }
@@ -42,7 +42,7 @@ public class EnemyChaseAndAttack : MonoBehaviour
         }
         else
         {
-            // ¿ÉÑ¡£º½øÈë·¶Î§Ò²¿ÉÒÔÌùµ½ stopDistance
+            // ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ë·¶Î§Ò²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ stopDistance
             if (dist > stopDistance) MoveTowardsTarget();
             TryAttack();
         }
@@ -58,7 +58,7 @@ public class EnemyChaseAndAttack : MonoBehaviour
 
         Vector3 dir = to.normalized;
 
-        // ·ÖÀëX/ZËÙ¶È£¨ÊÀ½ç×ø±ê£©
+        // ï¿½ï¿½ï¿½ï¿½X/Zï¿½Ù¶È£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê£©
         Vector3 velocity = new Vector3(
             dir.x * speedX,
             0f,
@@ -94,17 +94,17 @@ public class EnemyChaseAndAttack : MonoBehaviour
 
     void DoAttack()
     {
-        // µÐÈË¹¥»÷Ë²¼äÉÁ°×
+        // ï¿½ï¿½ï¿½Ë¹ï¿½ï¿½ï¿½Ë²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         if (selfFlash != null) selfFlash.Flash();
 
-        // Íæ¼ÒÊÜ»÷£¨Íæ¼ÒÉÁ°×ÔÚ PlayerHealth Àï£©
+        // ï¿½ï¿½ï¿½ï¿½Ü»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ PlayerHealth ï¿½ï£©
         if (playerHealth != null)
         {
             playerHealth.TakeDamage(damage);
         }
         else
         {
-            // ¶µµ×£ºÏÖ³¡ÕÒ
+            // ï¿½ï¿½ï¿½×£ï¿½ï¿½Ö³ï¿½ï¿½ï¿½
             var ph = target.GetComponent<PlayerHealth>();
             if (ph != null) ph.TakeDamage(damage);
         }

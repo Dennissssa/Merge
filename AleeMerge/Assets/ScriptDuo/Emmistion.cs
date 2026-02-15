@@ -18,7 +18,7 @@ public class FlashWhite : MonoBehaviour
         originalMats = new Material[renderers.Length][];
         for (int i = 0; i < renderers.Length; i++)
         {
-            originalMats[i] = renderers[i].materials; // ×¢Òâ£ºÕâÊÇÊµÀý»¯²ÄÖÊÊý×é£¬runtime Ìæ»»°²È«
+            originalMats[i] = renderers[i].materials; // ×¢ï¿½â£ºï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é£¬runtime ï¿½æ»»ï¿½ï¿½È«
         }
     }
 
@@ -31,7 +31,7 @@ public class FlashWhite : MonoBehaviour
 
     IEnumerator DoFlash()
     {
-        // Ìæ»»ÎªÉÁ°×²ÄÖÊ£¨±£³Ö slot ÊýÁ¿Ò»ÖÂ£©
+        // ï¿½æ»»Îªï¿½ï¿½ï¿½×²ï¿½ï¿½Ê£ï¿½ï¿½ï¿½ï¿½ï¿½ slot ï¿½ï¿½ï¿½ï¿½Ò»ï¿½Â£ï¿½
         for (int i = 0; i < renderers.Length; i++)
         {
             var mats = renderers[i].materials;
@@ -42,7 +42,7 @@ public class FlashWhite : MonoBehaviour
 
         yield return new WaitForSeconds(flashDuration);
 
-        // »¹Ô­
+        // ï¿½ï¿½Ô­
         for (int i = 0; i < renderers.Length; i++)
         {
             renderers[i].materials = originalMats[i];
