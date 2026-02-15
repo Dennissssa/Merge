@@ -14,6 +14,8 @@ public class BackgroundChunkLooper3D : MonoBehaviour
 
     float chunkWidth;
 
+    public DistanceTracker distanceTracker;
+
     void Awake()
     {
         if (!cam) cam = Camera.main;
@@ -48,5 +50,7 @@ public class BackgroundChunkLooper3D : MonoBehaviour
             chunks.RemoveAt(0);
             chunks.Add(leftMost);
         }
+
+        if (distanceTracker) distanceTracker.metersPerSecond = scrollSpeed;
     }
 }
