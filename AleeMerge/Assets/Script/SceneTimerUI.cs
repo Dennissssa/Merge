@@ -9,6 +9,9 @@ public class SceneTimerUI : MonoBehaviour
     [Header("Settings")]
     public int startNumber = 1;
 
+    [Header("Display")]
+    public string unit = " s";   // 单位（可以改成 " 秒"）
+
     private float _time;
     private int _currentValue;
 
@@ -35,6 +38,6 @@ public class SceneTimerUI : MonoBehaviour
     void UpdateText()
     {
         if (timerText != null)
-            timerText.text = _currentValue.ToString();
+            timerText.text = _currentValue.ToString() + unit;
     }
 }
