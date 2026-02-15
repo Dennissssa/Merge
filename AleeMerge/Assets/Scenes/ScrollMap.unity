@@ -178,7 +178,6 @@ MonoBehaviour:
   scrollSpeed: 3
   recycleBuffer: 1
   seamOverlap: 0.01
-  distanceTracker: {fileID: 0}
 --- !u!1 &380861444
 GameObject:
   m_ObjectHideFlags: 0
@@ -600,14 +599,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tracker: {fileID: 2119787540}
   profile: {fileID: 11400000, guid: 9f84007bfeba74712af2a710ebeca937, type: 2}
-  spawnArea: {fileID: 0}
   enemy1: {fileID: 4771683763451606537, guid: b420f14708807455dba64d8d1e779ae3, type: 3}
   enemy2: {fileID: 4771683763451606537, guid: 455778bf4b8fa479185b8b6108ee305d, type: 3}
   enemy3: {fileID: 4771683763451606537, guid: 2423c27491d8e4a9fb2f8f7e9aa36296, type: 3}
   maxAlive: 15
   intervalRandomJitter: 0.2
-  spawnZ: 0
-  outsideOffset: 1
   leftZone: {fileID: 1576132161}
   topZone: {fileID: 1305615760}
   bottomZone: {fileID: 2000703744}

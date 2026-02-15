@@ -10,13 +10,8 @@ public class EnemySpawner : MonoBehaviour
     public GameObject enemy3;
 
     [Header("Spawn Control")]
-    public int maxAlive = 15;
-    public float intervalRandomJitter = 0.2f; // 让间隔有点随机，不死板
-
+    public float intervalRandomJitter = 0.2f;
     float timer;
-
-    enum SpawnEdge { Left, Top, Bottom }
-
     public BoxCollider leftZone;
     public BoxCollider topZone;
     public BoxCollider bottomZone;
@@ -27,36 +22,32 @@ public class EnemySpawner : MonoBehaviour
     public float wBottom = 0.2f;
 
     [Header("Fix axis")]
-    public float fixedY = 0f;   // 你希望敌人生成时Y固定到多少
+    public float fixedY = 0f;
 
 
     void Update()
     {
         if (!tracker || !profile) return;
 
-        // 简单上限控制（后续可改成更精确的活怪统计/对象池）
-        if (GameObject.FindGameObjectsWithTag("Enemy").Length >= maxAlive) return;
-
         timer -= Time.deltaTime;
         if (timer > 0f) return;
 
         float d = tracker.DistanceMeters;
 
-        // 1) 决定生成间隔
+        // 生成间隔
         float baseInterval = profile.GetSpawnInterval(d);
         float jitter = Random.Range(-intervalRandomJitter, intervalRandomJitter);
         timer = Mathf.Max(0.05f, baseInterval + jitter);
 
-        // 2) 按权重选怪
+        // 刷怪权重
         var (w1, w2, w3) = profile.GetWeights(d);
         GameObject prefab = WeightedPick(enemy1, enemy2, enemy3, w1, w2, w3);
 
-        // 3) 在区域里取随机点生成
-        // 只从左/上/下三边刷
+        // 区域随机生成
         var zone = PickZone(leftZone, topZone, bottomZone, wLeft, wTop, wBottom);
         Vector3 pos = RandomPointInBox(zone);
 
-        // 固定Y（你想要的逻辑）
+        // 固定y坐标
         pos.y = fixedY;
 
         Instantiate(prefab, pos, Quaternion.identity);
@@ -76,7 +67,6 @@ public class EnemySpawner : MonoBehaviour
 
         return box.transform.TransformPoint(local);
     }
-
 
     static GameObject WeightedPick(GameObject a, GameObject b, GameObject c, float wa, float wb, float wc)
     {
@@ -99,5 +89,4 @@ public class EnemySpawner : MonoBehaviour
         if (r < wt) return top;
         return bottom;
     }
-
 }

@@ -5,7 +5,7 @@ public class DistanceTracker : MonoBehaviour
 {
     public float DistanceMeters { get; private set; }
     public event Action<float> OnDistanceChanged;
-    public float metersPerSecond = 5f; // 由你的世界滚动速度赋值
+    public float metersPerSecond = 5f;
 
     public void AddDistance(float meters)
     {
@@ -16,7 +16,7 @@ public class DistanceTracker : MonoBehaviour
     void Update()
     {
         DistanceMeters += metersPerSecond * Time.deltaTime;
-        Debug.Log(DistanceMeters);
+        Debug.Log(DistanceMeters); // 测试用的，记得删
     }
 
     public int DifficultyTier => Mathf.FloorToInt(DistanceMeters / 100f);

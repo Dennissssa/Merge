@@ -12,9 +12,6 @@ public class BackgroundChunkLooper3D : MonoBehaviour
     public float recycleBuffer = 1f;
     public float seamOverlap = 0f;
 
-    float chunkWidth;
-
-    public DistanceTracker distanceTracker;
 
     void Awake()
     {
@@ -23,7 +20,6 @@ public class BackgroundChunkLooper3D : MonoBehaviour
         chunks.Sort((a, b) => a.position.x.CompareTo(b.position.x));
 
         var r = chunks[0].GetComponentInChildren<Renderer>();
-        chunkWidth = r.bounds.size.x;
     }
 
     void Update()
@@ -50,7 +46,5 @@ public class BackgroundChunkLooper3D : MonoBehaviour
             chunks.RemoveAt(0);
             chunks.Add(leftMost);
         }
-
-        if (distanceTracker) distanceTracker.metersPerSecond = scrollSpeed;
     }
 }
