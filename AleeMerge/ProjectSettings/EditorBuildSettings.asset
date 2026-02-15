@@ -6,12 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/ScrollMap.unity
+    path: Assets/Scenes/Start.unity
+    guid: 945ae4d47eddf06499232a5b43335d65
+  - enabled: 1
+    path: Assets/Scenes/Play.unity
     guid: e34766c2f38984af48d3c1c50344cf65
   - enabled: 1
     path: Assets/Scenes/End.unity
     guid: e761452f24dabab4289e4c06bb32fabc
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/duo.unity
     guid: 252c2a13ab5153447906296a27eb95ff
   m_configObjects: {}

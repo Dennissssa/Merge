@@ -75,7 +75,7 @@ public class HealthBarUI : MonoBehaviour
                     else
                     {
                         healthImages[i].enabled = true;
-                        healthImages[i].color = Color.red;  // 如果没有sprite，用红色表示满血
+                        healthImages[i].color = Color.white;  // 如果没有sprite，用红色表示满血
                     }
                 }
                 else

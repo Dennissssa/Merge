@@ -6,6 +6,7 @@ using UnityEngine;
 /// - Player B (Arrow keys): rotates a HORIZONTAL aim around the player. BULLET is a flying prefab (Rigidbody).
 /// - ROCK and BULLET fire on the same base interval, but BULLET is phase-offset (staggered).
 ///   Example: rock at 0,1,2... ; bullet at 0.5,1.5,2.5...
+/// - Bullet hitscan raycast can be visualized using a LineRenderer (flash for a short duration).
 /// </summary>
 public class DualAutoAttack_ThirdPerson_GroundCrosshair_BulletPrefab : MonoBehaviour
 {
@@ -46,7 +47,7 @@ public class DualAutoAttack_ThirdPerson_GroundCrosshair_BulletPrefab : MonoBehav
     [Tooltip("Bullet fires after this offset from the rock beat. Example: 0.5 means bullet fires midway.")]
     public float bulletPhaseOffset = 0.5f;
 
-    [Tooltip("If true, both start immediately according to their schedules; if false, they wait until their first scheduled time.")]
+    [Tooltip("If true, rock fires immediately and bullet fires after offset; if false, both wait for first schedule.")]
     public bool startAlignedImmediately = true;
 
     [Header("Optional Hitscan (instant hit check)")]
@@ -54,6 +55,12 @@ public class DualAutoAttack_ThirdPerson_GroundCrosshair_BulletPrefab : MonoBehav
     public float hitscanRange = 120f;
     public LayerMask hitLayers;
     public bool ignoreTriggers = true;
+
+    [Header("Ray Visual (LineRenderer)")]
+    [Tooltip("Assign a LineRenderer (Use World Space = ON). It will flash briefly when shooting.")]
+    public LineRenderer rayLine;
+    public float rayDisplayTime = 0.05f;
+    public bool hideRayLineOnStart = true;
 
     [Header("Debug")]
     public bool debugDraw = true;
@@ -66,6 +73,9 @@ public class DualAutoAttack_ThirdPerson_GroundCrosshair_BulletPrefab : MonoBehav
     private float _nextRockTime;
     private float _nextBulletTime;
 
+    // ray timer
+    private float _rayTimer;
+
     void Awake()
     {
         if (!aimBase) aimBase = transform;
@@ -76,26 +86,25 @@ public class DualAutoAttack_ThirdPerson_GroundCrosshair_BulletPrefab : MonoBehav
             Transform t = transform.Find("GroundCrosshair");
             if (t) groundCrosshair = t;
         }
+
+        if (rayLine != null && hideRayLineOnStart)
+            rayLine.enabled = false;
     }
 
     void Start()
     {
         baseInterval = Mathf.Max(0.01f, baseInterval);
-
-        // 将 offset 规范到 [0, baseInterval)
         bulletPhaseOffset = Mathf.Repeat(bulletPhaseOffset, baseInterval);
 
         float t = Time.time;
 
         if (startAlignedImmediately)
         {
-            // 立刻对齐：rock 现在就发一次；bullet 在 offset 后发
             _nextRockTime = t;
             _nextBulletTime = t + bulletPhaseOffset;
         }
         else
         {
-            // 不立刻：rock 下一拍；bullet 下一拍+offset
             _nextRockTime = t + baseInterval;
             _nextBulletTime = t + baseInterval + bulletPhaseOffset;
         }
@@ -119,7 +128,7 @@ public class DualAutoAttack_ThirdPerson_GroundCrosshair_BulletPrefab : MonoBehav
             ThrowRockTo(groundCrosshair.position);
             _nextRockTime += baseInterval;
 
-            // 防止掉帧时连续补太多发（可选保护）
+            // anti-catchup protection
             if (now - _nextRockTime > baseInterval * 3f)
                 _nextRockTime = now + baseInterval;
         }
@@ -131,12 +140,20 @@ public class DualAutoAttack_ThirdPerson_GroundCrosshair_BulletPrefab : MonoBehav
             ShootBulletPrefab(dir);
 
             if (doHitscanRaycast)
-                Hitscan(dir);
+                HitscanAndVisualize(dir);
 
             _nextBulletTime += baseInterval;
 
             if (now - _nextBulletTime > baseInterval * 3f)
                 _nextBulletTime = now + baseInterval;
+        }
+
+        // hide ray after a short time
+        if (rayLine != null && rayLine.enabled)
+        {
+            _rayTimer -= Time.deltaTime;
+            if (_rayTimer <= 0f)
+                rayLine.enabled = false;
         }
 
         if (debugDraw)
@@ -283,21 +300,39 @@ public class DualAutoAttack_ThirdPerson_GroundCrosshair_BulletPrefab : MonoBehav
         Destroy(bullet, bulletLifeTime);
     }
 
-    // -------------------- Optional Hitscan --------------------
-    void Hitscan(Vector3 dir)
+    // -------------------- Hitscan + LineRenderer Visual --------------------
+    void HitscanAndVisualize(Vector3 dir)
     {
         QueryTriggerInteraction qti = ignoreTriggers ? QueryTriggerInteraction.Ignore : QueryTriggerInteraction.Collide;
 
-        if (Physics.Raycast(shootOrigin.position, dir, out RaycastHit hit, hitscanRange, hitLayers, qti))
+        Vector3 start = shootOrigin.position;
+        Vector3 end = start + dir * hitscanRange;
+
+        if (Physics.Raycast(start, dir, out RaycastHit hit, hitscanRange, hitLayers, qti))
         {
-            // hit logic here
+            end = hit.point;
+
             if (debugDraw)
-                Debug.DrawLine(shootOrigin.position, hit.point, Color.red, 0.2f);
+                Debug.DrawLine(start, hit.point, Color.red, 0.2f);
+
+            // hit logic here (optional)
+            // var ph = hit.collider.GetComponent<PlayerHealth>();
+            // if (ph != null) ph.TakeDamage(1);
         }
         else
         {
             if (debugDraw)
-                Debug.DrawRay(shootOrigin.position, dir * hitscanRange, Color.green, 0.2f);
+                Debug.DrawRay(start, dir * hitscanRange, Color.green, 0.2f);
+        }
+
+        // Visualize with LineRenderer (flash)
+        if (rayLine != null)
+        {
+            rayLine.positionCount = 2;
+            rayLine.SetPosition(0, start);
+            rayLine.SetPosition(1, end);
+            rayLine.enabled = true;
+            _rayTimer = Mathf.Max(0.01f, rayDisplayTime);
         }
     }
 }
