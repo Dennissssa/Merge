@@ -7,6 +7,7 @@ using UnityEngine;
 /// - ROCK and BULLET fire on the same base interval, but BULLET is phase-offset (staggered).
 ///   Example: rock at 0,1,2... ; bullet at 0.5,1.5,2.5...
 /// - Bullet hitscan raycast can be visualized using a LineRenderer (flash for a short duration).
+/// - NEW: Always-on aim indicator thin line to show current horizontal aim direction.
 /// </summary>
 public class DualAutoAttack_ThirdPerson_GroundCrosshair_BulletPrefab : MonoBehaviour
 {
@@ -56,11 +57,18 @@ public class DualAutoAttack_ThirdPerson_GroundCrosshair_BulletPrefab : MonoBehav
     public LayerMask hitLayers;
     public bool ignoreTriggers = true;
 
-    [Header("Ray Visual (LineRenderer)")]
+    [Header("Ray Visual (LineRenderer) - Shoot Flash")]
     [Tooltip("Assign a LineRenderer (Use World Space = ON). It will flash briefly when shooting.")]
     public LineRenderer rayLine;
     public float rayDisplayTime = 0.05f;
     public bool hideRayLineOnStart = true;
+
+    [Header("Aim Indicator (always-on thin line)")]
+    [Tooltip("Assign a different LineRenderer for an always-on aim direction indicator (Use World Space = ON).")]
+    public LineRenderer aimIndicatorLine;
+    public float aimIndicatorLength = 8f;
+    public float aimIndicatorStartOffset = 0.05f;
+    public bool hideAimIndicatorWhenNoShootOrigin = true;
 
     [Header("Debug")]
     public bool debugDraw = true;
@@ -73,7 +81,7 @@ public class DualAutoAttack_ThirdPerson_GroundCrosshair_BulletPrefab : MonoBehav
     private float _nextRockTime;
     private float _nextBulletTime;
 
-    // ray timer
+    // ray timer (shoot flash)
     private float _rayTimer;
 
     void Awake()
@@ -89,6 +97,13 @@ public class DualAutoAttack_ThirdPerson_GroundCrosshair_BulletPrefab : MonoBehav
 
         if (rayLine != null && hideRayLineOnStart)
             rayLine.enabled = false;
+
+        if (aimIndicatorLine != null)
+        {
+            aimIndicatorLine.useWorldSpace = true;
+            aimIndicatorLine.positionCount = 2;
+            aimIndicatorLine.enabled = true; // always on
+        }
     }
 
     void Start()
@@ -120,6 +135,12 @@ public class DualAutoAttack_ThirdPerson_GroundCrosshair_BulletPrefab : MonoBehav
         // Player B
         UpdateAimByArrows();
 
+        // Aim dir (compute once)
+        Vector3 aimDir = GetShootDirectionAroundPlayerHorizontal();
+
+        // Always-on aim indicator
+        UpdateAimIndicatorLine(aimDir);
+
         float now = Time.time;
 
         // 🪨 Rock fires on beat
@@ -136,11 +157,10 @@ public class DualAutoAttack_ThirdPerson_GroundCrosshair_BulletPrefab : MonoBehav
         // 🔫 Bullet fires on offset beat
         if (now >= _nextBulletTime)
         {
-            Vector3 dir = GetShootDirectionAroundPlayerHorizontal();
-            ShootBulletPrefab(dir);
+            ShootBulletPrefab(aimDir);
 
             if (doHitscanRaycast)
-                HitscanAndVisualize(dir);
+                HitscanAndVisualize(aimDir);
 
             _nextBulletTime += baseInterval;
 
@@ -148,7 +168,7 @@ public class DualAutoAttack_ThirdPerson_GroundCrosshair_BulletPrefab : MonoBehav
                 _nextBulletTime = now + baseInterval;
         }
 
-        // hide ray after a short time
+        // hide shoot flash ray after a short time
         if (rayLine != null && rayLine.enabled)
         {
             _rayTimer -= Time.deltaTime;
@@ -158,8 +178,7 @@ public class DualAutoAttack_ThirdPerson_GroundCrosshair_BulletPrefab : MonoBehav
 
         if (debugDraw)
         {
-            Vector3 dir = GetShootDirectionAroundPlayerHorizontal();
-            Debug.DrawRay(shootOrigin.position, dir * debugRayLength, Color.yellow);
+            Debug.DrawRay(shootOrigin.position, aimDir * debugRayLength, Color.yellow);
             Debug.DrawLine(throwOrigin.position, groundCrosshair.position, Color.cyan);
         }
     }
@@ -300,7 +319,7 @@ public class DualAutoAttack_ThirdPerson_GroundCrosshair_BulletPrefab : MonoBehav
         Destroy(bullet, bulletLifeTime);
     }
 
-    // -------------------- Hitscan + LineRenderer Visual --------------------
+    // -------------------- Hitscan + LineRenderer Visual (shoot flash) --------------------
     void HitscanAndVisualize(Vector3 dir)
     {
         QueryTriggerInteraction qti = ignoreTriggers ? QueryTriggerInteraction.Ignore : QueryTriggerInteraction.Collide;
@@ -328,11 +347,33 @@ public class DualAutoAttack_ThirdPerson_GroundCrosshair_BulletPrefab : MonoBehav
         // Visualize with LineRenderer (flash)
         if (rayLine != null)
         {
+            rayLine.useWorldSpace = true;
             rayLine.positionCount = 2;
             rayLine.SetPosition(0, start);
             rayLine.SetPosition(1, end);
             rayLine.enabled = true;
             _rayTimer = Mathf.Max(0.01f, rayDisplayTime);
         }
+    }
+
+    // -------------------- Aim Indicator (always on) --------------------
+    void UpdateAimIndicatorLine(Vector3 dir)
+    {
+        if (aimIndicatorLine == null) return;
+
+        if (!shootOrigin)
+        {
+            if (hideAimIndicatorWhenNoShootOrigin) aimIndicatorLine.enabled = false;
+            return;
+        }
+
+        aimIndicatorLine.enabled = true;
+
+        Vector3 start = shootOrigin.position + dir * aimIndicatorStartOffset;
+        Vector3 end = start + dir * aimIndicatorLength;
+
+        aimIndicatorLine.positionCount = 2;
+        aimIndicatorLine.SetPosition(0, start);
+        aimIndicatorLine.SetPosition(1, end);
     }
 }
