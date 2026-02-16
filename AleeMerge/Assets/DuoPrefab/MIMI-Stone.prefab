@@ -271,7 +271,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   playerHealth: {fileID: 0}
-  speedX: 3
+  speedX: 1.5
   speedZ: 3
   stopDistance: 1
   attackRange: 2

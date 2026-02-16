@@ -25,13 +25,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2182663039639350714}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.18301274, y: -0.18301274, z: 0.6830127, w: 0.6830127}
+  m_LocalRotation: {x: 0.56978637, y: 0.28408092, z: 0.4187387, w: 0.6475334}
   m_LocalPosition: {x: 1.02, y: -0.02, z: -0.08}
   m_LocalScale: {x: 0.19701746, y: 0.19701746, z: 0.19701746}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 291407383922312497}
-  m_LocalEulerAnglesHint: {x: 30, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: 30, y: 77.375, z: 90}
 --- !u!212 &3976627171050951733
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -101,6 +101,8 @@ GameObject:
   - component: {fileID: 5211452904283102426}
   - component: {fileID: 9145270821815901881}
   - component: {fileID: -6201909149176765651}
+  - component: {fileID: 1017616681828726853}
+  - component: {fileID: 2931887252064261730}
   m_Layer: 0
   m_Name: stone
   m_TagString: Untagged
@@ -246,7 +248,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9af87271d1764384d8022b28b82028b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vfxPrefab: {fileID: 0}
+  vfxPrefab: {fileID: 4339719792137311250, guid: 0c0dc1fd34a34f5459204323d5e7a6e8, type: 3}
   fallbackVfxDuration: 0.5
   vfxOffset: {x: 0, y: 0.1, z: 0}
   extraDestroyDelay: 0
@@ -263,8 +265,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9564edbe688e76a429a931795eefaf5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifeTime: 10
+  lifeTime: 4
 --- !u!114 &-6201909149176765651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7035677408349533784}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08842a0c4c037f14e8382a0ea4a64f9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetCamera: {fileID: 0}
+--- !u!114 &1017616681828726853
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -273,7 +288,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 7035677408349533784}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08842a0c4c037f14e8382a0ea4a64f9b, type: 3}
+  m_Script: {fileID: 11500000, guid: e34b6e3c191ba3540bd2e6c9a53d632e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetCamera: {fileID: 0}
+  speed: 4
+--- !u!114 &2931887252064261730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7035677408349533784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c64a7df2b364a2b489a84d788dd56735, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 5294702019927016968}
+  useRigidbodyVelocity: 1
+  forwardAxis: {x: 0, y: 0, z: 1}
+  minSpeed: 0.001
+  lockX: 0
+  lockY: 0
+  lockZ: 0
