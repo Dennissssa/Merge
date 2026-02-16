@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 8059003401450317532}
   - component: {fileID: 8251471519390142123}
   - component: {fileID: 2748774958867363036}
+  - component: {fileID: 6159819058519699984}
   m_Layer: 0
   m_Name: MIMI-Bullet
   m_TagString: Untagged
@@ -186,6 +187,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scriptToDetect: {fileID: 11500000, guid: ff2d0894fc0890d4cbe7b63111d09db1, type: 3}
   destroyDelay: 0.1
+--- !u!114 &6159819058519699984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1394434285512252646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c84337e57743b4243b0bc8b6de7a918f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1513726564339854587
 GameObject:
   m_ObjectHideFlags: 0

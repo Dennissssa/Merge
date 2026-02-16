@@ -5,23 +5,27 @@ using System;
 public class PlayerHealth : MonoBehaviour
 {
     [Header("HP")]
-    public int maxHealth = 5;  // 最大5格血
-    public int currentHealth = 5;  // 当前血量（格数）
+    public int maxHealth = 5;
+    public int currentHealth = 5;
 
     [Header("Hit Flash")]
     public FlashWhite flash;
 
+    [Header("Hit Sound")]
+    public AudioSource audioSource;   // 拖入 AudioSource
+    public AudioClip hitClip;         // 受击音效
+
     [Header("Health Bar UI")]
-    public HealthBarUI healthBarUI;  // 血条UI引用
+    public HealthBarUI healthBarUI;
 
     [Header("Scene Settings")]
     public bool loadNextSceneOnDeath = true;
-    public float deathDelay = 1f;   // 延迟多少秒再跳转（可做死亡动画）
+    public float deathDelay = 1f;
 
     private bool isDead = false;
 
     // 血量变化事件
-    public event Action<int, int> OnHealthChanged;  // (currentHealth, maxHealth)
+    public event Action<int, int> OnHealthChanged;
 
     void Start()
     {
@@ -33,13 +37,16 @@ public class PlayerHealth : MonoBehaviour
     {
         if (isDead) return;
 
-        // 每格血代表1点，所以直接减少格数
         currentHealth -= amount;
 
+        // 播放闪白
         if (flash != null)
             flash.Flash();
 
-        // 确保血量不会低于0
+        // 🔊 播放受击音效
+        if (audioSource != null && hitClip != null)
+            audioSource.PlayOneShot(hitClip);
+
         if (currentHealth <= 0)
         {
             currentHealth = 0;
@@ -49,7 +56,6 @@ public class PlayerHealth : MonoBehaviour
         UpdateHealthBar();
     }
 
-    // 恢复血量
     public void Heal(int amount)
     {
         if (isDead) return;
@@ -61,7 +67,6 @@ public class PlayerHealth : MonoBehaviour
         UpdateHealthBar();
     }
 
-    // 更新血条UI
     void UpdateHealthBar()
     {
         if (healthBarUI != null)
@@ -69,7 +74,6 @@ public class PlayerHealth : MonoBehaviour
             healthBarUI.UpdateHealth(currentHealth, maxHealth);
         }
 
-        // 触发事件
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
     }
 

@@ -136,6 +136,7 @@ GameObject:
   - component: {fileID: 7691669227430964314}
   - component: {fileID: 3369745640472324513}
   - component: {fileID: 8287737931772720699}
+  - component: {fileID: 3497178361953962864}
   m_Layer: 0
   m_Name: MIMI-Stone
   m_TagString: Untagged
@@ -306,3 +307,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scriptToDetect: {fileID: 11500000, guid: d84a9558991f3f44c8b0a1f8aa65daf1, type: 3}
   destroyDelay: 0.1
+--- !u!114 &3497178361953962864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 806753923590659211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dd8c5eb63a6fa14d8b0c8e36a9af4c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
