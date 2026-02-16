@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using TMPro;
 using System;
 
 public class PlayerHealth : MonoBehaviour
@@ -11,25 +11,35 @@ public class PlayerHealth : MonoBehaviour
     [Header("Hit Flash")]
     public FlashWhite flash;
 
-    [Header("Hit Sound")]
-    public AudioSource audioSource;   // 拖入 AudioSource
-    public AudioClip hitClip;         // 受击音效
-
     [Header("Health Bar UI")]
     public HealthBarUI healthBarUI;
 
-    [Header("Scene Settings")]
-    public bool loadNextSceneOnDeath = true;
+    [Header("Death Settings")]
+    public GameObject deathObjectToEnable;
     public float deathDelay = 1f;
+
+    [Header("Death Time UI (TMP)")]
+    public TMP_Text deathTimeText;          // 拖入Canvas上的TMP Text
+    public string deathTimePrefix = "Time: ";
 
     private bool isDead = false;
 
-    // 血量变化事件
+    // 记录死亡时的场景时间（秒）
+    public float deathSceneTime { get; private set; } = -1f;
+
     public event Action<int, int> OnHealthChanged;
 
     void Start()
     {
+        Time.timeScale = 1f;   // 防止上一局
         currentHealth = maxHealth;
+
+        if (deathObjectToEnable != null)
+            deathObjectToEnable.SetActive(false);
+
+        if (deathTimeText != null)
+            deathTimeText.text = "";
+
         UpdateHealthBar();
     }
 
@@ -39,17 +49,19 @@ public class PlayerHealth : MonoBehaviour
 
         currentHealth -= amount;
 
-        // 播放闪白
         if (flash != null)
             flash.Flash();
-
-        // 🔊 播放受击音效
-        if (audioSource != null && hitClip != null)
-            audioSource.PlayOneShot(hitClip);
 
         if (currentHealth <= 0)
         {
             currentHealth = 0;
+
+            // ✅ 记录死亡时间
+            deathSceneTime = Time.timeSinceLevelLoad;
+
+            // ✅ 显示
+            UpdateDeathTimeUI();
+
             Die();
         }
 
@@ -70,9 +82,7 @@ public class PlayerHealth : MonoBehaviour
     void UpdateHealthBar()
     {
         if (healthBarUI != null)
-        {
             healthBarUI.UpdateHealth(currentHealth, maxHealth);
-        }
 
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
     }
@@ -82,15 +92,34 @@ public class PlayerHealth : MonoBehaviour
         isDead = true;
         Debug.Log("Player Dead");
 
-        if (loadNextSceneOnDeath)
-        {
-            Invoke(nameof(LoadNextScene), deathDelay);
-        }
+        Invoke(nameof(EnableDeathObject), deathDelay);
     }
 
-    void LoadNextScene()
+    void EnableDeathObject()
     {
-        int currentIndex = SceneManager.GetActiveScene().buildIndex;
-        SceneManager.LoadScene(currentIndex + 1);
+        if (deathObjectToEnable != null)
+            deathObjectToEnable.SetActive(true);
+
+        // ✅ 暂停游戏
+        Time.timeScale = 0f;
+    }
+
+
+    void UpdateDeathTimeUI()
+    {
+        if (deathTimeText == null) return;
+
+        int seconds = Mathf.FloorToInt(deathSceneTime);
+        deathTimeText.text = seconds + " m";
+    }
+
+
+
+    // 可读性更好的 mm:ss 格式
+    string FormatTime(float time)
+    {
+        int minutes = Mathf.FloorToInt(time / 60f);
+        int seconds = Mathf.FloorToInt(time % 60f);
+        return string.Format("{0:00}:{1:00}", minutes, seconds);
     }
 }
