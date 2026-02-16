@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.3069224, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1445,6 +1445,11 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.2569152, y: 0.16506815, z: 6.603979}
   m_Center: {x: 0.3715424, y: 0.02095828, z: -0.03526497}
+--- !u!1 &1327975288 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3520742457628058742, guid: a64b7a45fc9fbbb4482547c32970f27e, type: 3}
+  m_PrefabInstance: {fileID: 1438502146}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1370694702
 GameObject:
   m_ObjectHideFlags: 0
@@ -1845,13 +1850,29 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2743757537382728880, guid: a64b7a45fc9fbbb4482547c32970f27e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2119787539}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3520742457628058742, guid: a64b7a45fc9fbbb4482547c32970f27e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1438502149}
   m_SourcePrefab: {fileID: 100100000, guid: a64b7a45fc9fbbb4482547c32970f27e, type: 3}
 --- !u!4 &1438502147 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2743757537382728880, guid: a64b7a45fc9fbbb4482547c32970f27e, type: 3}
   m_PrefabInstance: {fileID: 1438502146}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1438502149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1327975288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e48aa7878c74d2644b83ae0eb52e0a2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  delayBeforeRestart: 0
 --- !u!1001 &1463062051
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1876,6 +1897,10 @@ PrefabInstance:
       propertyPath: healthBarUI
       value: 
       objectReference: {fileID: 1647795265}
+    - target: {fileID: 4264496916401810536, guid: 64ae3416e23ebe14e9b00eff2b0c6834, type: 3}
+      propertyPath: deathObjectToEnable
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4303931988892336868, guid: 64ae3416e23ebe14e9b00eff2b0c6834, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.4053272
